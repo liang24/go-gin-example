@@ -1,11 +1,5 @@
 package models
 
-import (
-	"time"
-
-	"github.com/jinzhu/gorm"
-)
-
 type Article struct {
 	Model
 
@@ -22,7 +16,7 @@ type Article struct {
 
 func ExistArticleByID(id int) bool {
 	var article Article
-	db.Select("id").Where("id = ?", id).First(&article)
+	db.Select("id").Where("id = ? AND deleted_on = ?", id, 0).First(&article)
 
 	if article.ID > 0 {
 		return true
@@ -32,26 +26,26 @@ func ExistArticleByID(id int) bool {
 }
 
 func GetArticleTotal(maps interface{}) (count int) {
-	db.Model(&Article{}).Where(maps).Count(&count)
+	db.Model(&Article{}).Where(maps).Where("deleted_on = ?", 0).Count(&count)
 
 	return
 }
 
 func GetArticles(pageNum int, pageSize int, maps interface{}) (articles []Article) {
-	db.Preload("Tag").Where(maps).Offset(pageNum).Limit(pageSize).Find(&articles)
+	db.Preload("Tag").Where(maps).Where("deleted_on = ?", 0).Offset(pageNum).Limit(pageSize).Find(&articles)
 
 	return
 }
 
 func GetArticle(id int) (article Article) {
-	db.Where("id = ?", id).First(&article)
+	db.Where("id = ? AND deleted_on = ?", id, 0).First(&article)
 	db.Model(&article).Related(&article.Tag)
 
 	return
 }
 
 func EditArticle(id int, data interface{}) bool {
-	db.Model(&Article{}).Where("id = ?", id).Updates(data)
+	db.Model(&Article{}).Where("id = ? AND deleted_on = ?", id, 0).Updates(data)
 
 	return true
 }
@@ -73,16 +67,4 @@ func DeleteArticle(id int) bool {
 	db.Where("id = ?", id).Delete(Article{})
 
 	return true
-}
-
-func (article *Article) BeforeCreate(scope *gorm.Scope) error {
-	scope.SetColumn("CreatedOn", time.Now().Unix())
-
-	return nil
-}
-
-func (article *Article) BeforeUpdate(scope *gorm.Scope) error {
-	scope.SetColumn("ModifiedOn", time.Now().Unix())
-
-	return nil
 }
