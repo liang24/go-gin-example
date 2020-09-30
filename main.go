@@ -9,6 +9,8 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/liang24/go-gin-example/models"
+	"github.com/liang24/go-gin-example/pkg/logging"
 	"github.com/liang24/go-gin-example/pkg/setting"
 	"github.com/liang24/go-gin-example/routers"
 )
@@ -29,13 +31,17 @@ func main() {
 	// 	log.Printf("Server err: %v", err)
 	// }
 
+	setting.Setup()
+	models.Setup()
+	logging.Setup()
+
 	router := routers.InitRouter()
 
 	s := &http.Server{
-		Addr:           fmt.Sprintf(":%d", setting.HTTPPort),
+		Addr:           fmt.Sprintf(":%d", setting.ServerSetting.HttpPort),
 		Handler:        router,
-		ReadTimeout:    setting.ReadTimeout,
-		WriteTimeout:   setting.WriteTimeout,
+		ReadTimeout:    setting.ServerSetting.ReadTimeout,
+		WriteTimeout:   setting.ServerSetting.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
 

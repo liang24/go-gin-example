@@ -2,8 +2,7 @@ module github.com/liang24/go-gin-example
 
 go 1.15
 
-require (
-	github.com/EDDYCJY/go-gin-example v0.0.0-20200505102242-63963976dee0
+require (	
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/astaxie/beego v1.12.2
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
