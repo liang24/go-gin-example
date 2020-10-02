@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/liang24/go-gin-example/models"
+	"github.com/liang24/go-gin-example/pkg/gredis"
 	"github.com/liang24/go-gin-example/pkg/logging"
 	"github.com/liang24/go-gin-example/pkg/setting"
 	"github.com/liang24/go-gin-example/routers"
@@ -34,6 +35,7 @@ func main() {
 	setting.Setup()
 	models.Setup()
 	logging.Setup()
+	gredis.Setup()
 
 	router := routers.InitRouter()
 
