@@ -3,6 +3,7 @@ module github.com/liang24/go-gin-example
 go 1.15
 
 require (
+	github.com/360EntSecGroup-Skylar/excelize v1.4.1
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/astaxie/beego v1.12.2
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
@@ -24,6 +25,7 @@ require (
 	github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18 // indirect
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.6.7
+	github.com/tealeg/xlsx v1.0.5
 	github.com/ugorji/go v1.1.8 // indirect
 	github.com/unknwon/com v1.0.1
 	github.com/urfave/cli v1.22.4 // indirect

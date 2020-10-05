@@ -10,6 +10,7 @@ import (
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 
 	"github.com/liang24/go-gin-example/middleware/jwt"
+	"github.com/liang24/go-gin-example/pkg/export"
 	"github.com/liang24/go-gin-example/pkg/setting"
 	"github.com/liang24/go-gin-example/pkg/upload"
 	"github.com/liang24/go-gin-example/routers/api"
@@ -26,6 +27,7 @@ func InitRouter() *gin.Engine {
 	gin.SetMode(setting.ServerSetting.RunMode)
 
 	r.StaticFS("/upload/images", http.Dir(upload.GetImageFullPath()))
+	r.StaticFS("export", http.Dir(export.GetExcelFullPath()))
 
 	r.GET("/auth", api.GetAuth)
 	r.POST("/upload", api.UploadImage)
@@ -39,6 +41,10 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/tags", v1.AddTag)
 		apiv1.PUT("/tags/:id", v1.EditTag)
 		apiv1.DELETE("/tags/:id", v1.DeleteTag)
+		//导出标签
+		apiv1.POST("/tags/export", v1.ExportTag)
+		//导入标签
+		apiv1.POST("/tags/import", v1.ImportTag)
 
 		//获取文章列表
 		apiv1.GET("/articles", v1.GetArticles)
